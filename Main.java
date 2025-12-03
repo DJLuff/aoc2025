@@ -33,7 +33,10 @@ public class Main {
     		if (direction == 'L') {
     			movement = -1 * movement;
       		}
+			int previousPos = pos;
       		pos = pos + movement;
+			System.out.println(instruction);
+			System.out.println(pos);
 			int passes = 0;
 			while (pos > 99 || pos < 0) {
 				if (pos > 99){
@@ -43,6 +46,9 @@ public class Main {
 					}
 				}
 				if (pos < 0){
+					if (previousPos == 0 && passes == 0){
+						passes --;
+					}
 					passes ++;
 					pos += 100;
 				}
