@@ -1,17 +1,26 @@
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Scanner;
 
 public class Main {
   	public static void main(String[] args) throws FileNotFoundException {
-		ArrayList<String> instructions = readFile();
-		System.out.println(solveLock(instructions));
+		int day = 2;
+		String filename = "input" + day + ".txt";
+		ArrayList<String> puzzleInput = readFile(filename);
+		if (day == 1){
+			System.out.println(dayOne(puzzleInput));
+		} else if (day == 2){
+			System.out.println(dayTwo(puzzleInput[0]));
+		}
+
   	}
 
-	public static ArrayList<String> readFile() throws FileNotFoundException{
+	public static ArrayList<String> readFile(String filename) throws FileNotFoundException{
 		ArrayList<String> data = new ArrayList<String>();
-		File myObj = new File("input.txt");
+		File myObj = new File(filename);
 		Scanner myReader = new Scanner(myObj);
 		while (myReader.hasNextLine()) {
 			String instruction = myReader.nextLine();
@@ -21,7 +30,7 @@ public class Main {
 		return data;
     }
 
-	public static int solveLock(ArrayList<String> instructions) {
+	public static int dayOne(ArrayList<String> instructions) {
 		int password = 0;
 		int pos = 50;
     	//take the list of instructions
@@ -64,4 +73,44 @@ public class Main {
 		System.out.println(password);
     	return password;
   	}
+
+	public static int dayTwo(ArrayList<String> puzzleInput) {
+		List<String> instructions = Arrays.asList(puzzleInput.split(","));
+		int totalValue = 0;
+		for (String instruction : instructions) {
+			//Interpret list of values to check
+			String[] bounds = instruction.split("-");
+			String lowerBound = bounds[0];
+			String upperBound = bounds[1];
+			for (int testValue = Integer.parseInt(lowerBound); testValue < Integer.parseInt(upperBound) + 1; testValue++){
+				if (!evaluateNumber(String.valueOf(testValue))) {
+					totalValue += testValue;
+				}
+			}
+		}
+		return totalValue;
+	}
+	//Evaluate each value in the list
+	private static boolean evaluateNumber(String testValueStr) {
+		int testLength = testValueStr.length();
+		if (testLength %2 != 0) {
+			return true;
+		}
+		int firstHalf = Integer.parseInt(testValueStr.substring(0, testLength/2));
+		int secondHalf = Integer.parseInt(testValueStr.substring(testLength/2, testLength));
+		if (firstHalf == secondHalf) {
+			return false;
+		}
+		return true;
+	}
+
+
+	
+		//To be excluded:
+		//Needs to have an even number of digits
+		//Needs to have the first half be identical to the second half
+	//Add the digit to a running total
+	//Return the running total
+
+
 }
