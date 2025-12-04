@@ -46,15 +46,15 @@ public class Main {
 					}
 				}
 				if (pos < 0){
-					if (previousPos == 0 && passes == 0){
-						passes --;
-					}
 					passes ++;
 					pos += 100;
 				}
 			}
 			if (pos == 0){
 				passes ++;
+			}
+			if (previousPos == 0 && passes != 0 && direction == 'L'){
+				passes --;
 			}
 			password += passes;
 			
