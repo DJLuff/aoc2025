@@ -76,38 +76,43 @@ public class Main {
         return password;
     }
 
-    public static int dayTwo(ArrayList<String> puzzleInput) {
+    public static long dayTwo(ArrayList<String> puzzleInput) {
         String inputValue = puzzleInput.get(0);
         String[] inputSplit = inputValue.split(",");
-        int totalValue = 0;
+        long totalValue = 0;
         for (String instruction : inputSplit) {
             //Interpret list of values to check
             String[] bounds = instruction.split("-");
             String lowerBound = bounds[0];
             String upperBound = bounds[1];
-            for (int testValue = Integer.parseInt(lowerBound); testValue < Integer.parseInt(upperBound) + 1; testValue++) {
-                if (!evaluateNumber(String.valueOf(testValue))) {
+            for (long testValue = Long.parseLong(lowerBound); testValue < Long.parseLong(upperBound) + 1; testValue++) {
+				//System.out.println(testValue);
+                if (!evaluateGoodNumber(String.valueOf(testValue))) {
+					//Add the digit to a running total
                     totalValue += testValue;
                 }
             }
         }
+		//Return the running total
         return totalValue;
     }
     //Evaluate each value in the list
 
-    private static boolean evaluateNumber(String testValueStr) {
+    private static boolean evaluateGoodNumber(String testValueStr) {
         int testLength = testValueStr.length();
+		//Needs to have an even number of digits
         if (testLength % 2 != 0) {
             return true;
         }
-        int firstHalf = Integer.parseInt(testValueStr.substring(0, testLength / 2));
-        int secondHalf = Integer.parseInt(testValueStr.substring(testLength / 2, testLength));
+        long firstHalf = Long.parseLong(testValueStr.substring(0, testLength / 2));
+        long secondHalf = Long.parseLong(testValueStr.substring(testLength / 2, testLength));
+		//Needs to have the first half be identical to the second half
         return firstHalf != secondHalf;
     }
 
     //To be excluded:
-    //Needs to have an even number of digits
-    //Needs to have the first half be identical to the second half
-    //Add the digit to a running total
-    //Return the running total
+    
+    
+    
+    
 }
